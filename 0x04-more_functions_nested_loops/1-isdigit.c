@@ -11,7 +11,3 @@ int _isdigit(int c)
 
 	return (0);
 }
-© 2022 GitHub, Inc.
-Terms
-Privacy
-Security
