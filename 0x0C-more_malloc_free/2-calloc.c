@@ -37,7 +37,3 @@ void *_calloc(unsigned int nmemb, unsigned int size)
 	_memset(p, 0, (nmemb * size));
 	return (p);
 }
-© 2022 GitHub, Inc.
-Terms
-Privacy
-Security
