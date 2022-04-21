@@ -1,69 +1,45 @@
-#include "lists.h"
-#include <stdlib.h>
 #include <stdio.h>
-#include <stddef.h>
-/**
- * _strlen - gets length of the string
- * @s: string
- * Return: length of the string
- */
-int _strlen(const char *s)
-{
-	int i;
+#include <string.h>
+#include <stdlib.h>
+#include "lists.h"
 
-	for (i = 0; s[i]; i++)
-		;
-	return (i);
-}
 /**
- * _strdup - recreation of string duplicate function
- * @src: source of string to duplicate
- * Return: pointer to malloc'd space with copied string
- */
-void *_strdup(const char *src)
-{
-	int len, i;
-	char *dest;
+* add_node_end - adds a node to the end of a linked list
+* @head: pointer to the head of a linked list
+* @str: holds a str
+* Return: head
+*/
 
-	len = _strlen(src);
-	dest = malloc((len + 1) * sizeof(char));
-	if (dest == NULL)
-		return (NULL);
-	for (i = 0; src[i]; i++)
-		dest[i] = src[i];
-	dest[i] = '\0';
-	return (dest);
-}
-/**
- * add_node_end - add new nodes to the end of the list
- * @head: current place in the list
- * @str: string to add to the head
- * Return: pointer to current position in list
- */
 list_t *add_node_end(list_t **head, const char *str)
 {
-	list_t *new, *current;
-	char *dupstr;
+	unsigned int size;
+	list_t *new_node;
+	list_t *next_ptr;
+	char *copy_str;
 
-	if (str == NULL)
+	new_node = malloc(sizeof(list_t));
+	if (new_node == NULL)
 		return (NULL);
-	dupstr = _strdup(str);
-	if (dupstr == NULL)
-		return (NULL);
-	new = malloc(sizeof(list_t));
-	if (new == NULL)
-		return (NULL);
-	new->str = dupstr;
-	new->len = _strlen(str);
-	new->next = NULL;
+	copy_str = strdup(str);
+	size = 0;
+
+	while (str[size] != '\0')
+		size += 1;
+
+	new_node->str = copy_str;
+	new_node->len = size;
+	new_node->next = NULL;
+
 	if (*head == NULL)
 	{
-		*head = new;
+		*head = new_node;
 		return (*head);
 	}
-	current = *head;
-	while (current->next != NULL)
-		current = current->next;
-	current->next = new;
+	next_ptr = *head;
+
+	while (next_ptr->next != NULL)
+		next_ptr = next_ptr->next;
+
+	next_ptr->next = new_node;
 	return (*head);
 }
