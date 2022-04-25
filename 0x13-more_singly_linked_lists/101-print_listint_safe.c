@@ -1,11 +1,27 @@
 #include "lists.h"
+
 /**
- * print_listint_safe - define function
- * @head:
- * Return: what does it return?
+ * print_listint_safe - prints the circular linked list
+ * @head: pointer to the head
+ * Return: number of nodes
  */
 size_t print_listint_safe(const listint_t *head)
 {
-	head++;
-	return (0);
+	size_t i = 0;
+	listint_t *temp = (listint_t *)head;
+
+	while (temp && temp > temp->next)
+	{
+		printf("[%p] %d\n", (void *)temp, temp->n);
+		temp = temp->next;
+		i++;
+	}
+	if (temp)
+	{
+		printf("[%p] %d\n", (void *)temp, temp->n);
+		printf("-> [%p] %d\n", (void *)temp->next, temp->next->n);
+		i++;
+	}
+
+	return (i);
 }
