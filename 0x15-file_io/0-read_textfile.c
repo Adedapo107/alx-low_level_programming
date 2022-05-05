@@ -1,44 +1,43 @@
+#include <stdio.h>
 #include "main.h"
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <stdlib.h>
 /**
- * read_textfile - reads a file and writes it to the output
- * @filename: buffer
- * @letters: number of characters
- * Return: Actual number of written characters
+ * read_textfile - Reads a text file and prints it to the POSIX
+ * standard output.
+ * @filename: file.
+ * @letters: Number of letters it should read and print.
+ * Return: Actual number of letters it could read and print.
  */
 ssize_t read_textfile(const char *filename, size_t letters)
 {
-	char *buf = NULL;
-	ssize_t i, j;
-	int fd;
+	int fd, res_read, res_write;
+	char *buf;
 
-	if (!filename)
+	if (filename == NULL)
 		return (0);
-
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
 		return (0);
-
-	buf = malloc(letters + 1);
-	if (!buf)
+	buf = malloc(sizeof(char) * letters);
+	if (buf == NULL)
 		return (0);
-
-	i = read(fd, buf, letters);
-	if (i == -1)
+	res_read = read(fd, buf, letters);
+	if (res_read == -1)
 	{
-		close(fd);
 		free(buf);
 		return (0);
 	}
-	buf[i] = '\0';
-
-	j = write(STDOUT_FILENO, buf, i);
-	if (j == -1)
+	res_write = write(STDOUT_FILENO, buf, res_read);
+	if (res_write == -1 || res_read != res_write)
 	{
-		close(fd);
 		free(buf);
 		return (0);
 	}
-	close(fd);
 	free(buf);
-	return (j);
+	close(fd);
+	return (res_write);
 }
