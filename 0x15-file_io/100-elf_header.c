@@ -1,4 +1,4 @@
-#include "main.h
+#include "main.h"
 /**
  * main - Copies the content of a file to another file.
  * @ac: Argument count
