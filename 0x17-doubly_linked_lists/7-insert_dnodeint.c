@@ -1,46 +1,53 @@
 #include "lists.h"
 
 /**
- * insert_dnodeint_at_index - insert node at specific index
- * @h: head of linked list
- * @idx: index of new node
- * @n: new node value
- * Return: inserted node
- */
-
-dlistint_t *insert_dnodeint_at_index(dlistint_t **h, unsigned int idx, int n)
+ * insert_dnodeint_at_index - inserts a new node at given index in the list
+ * @head: pointer to head of the list
+ * @idx: index to add at, starting from 0
+ * @n: value of new node
+ * Return: new node or null
+ **/
+dlistint_t *insert_dnodeint_at_index(dlistint_t **head, unsigned int idx, int n)
 {
-	dlistint_t *current;
-	dlistint_t *new;
+	unsigned int count;
+	dlistint_t *tmp, *new, *tmp_prev;
 
-	if (h == NULL)
-		return (0);
-
-	current = *h;
-
-	while (idx != 0)
-	{
-		current = current->next;
-		idx--;
-		if (current == NULL)
-			return (NULL);
-	}
-
+	if (head == NULL && idx > 0)
+	return (NULL);
 	new = malloc(sizeof(dlistint_t));
-
 	if (new == NULL)
-	{
-		free(new);
 		return (NULL);
+	new->n = n, new->prev = new->next = NULL;
+
+	if (idx == 0)
+	{
+		if (*head)
+	{
+		new->next = *head;
+		(*head)->prev = new, *head = new;
 	}
-
-	new->n = n;
-	new->next = current;
-	new->prev = current->prev;
-	if (current->prev != NULL)
-		current->prev->next = new;
-
-	/*TODO: Handle special case when idx is 0 and last index*/
-
-	return (current);
+		else
+			*head = new;
+		return (new);
+	}
+	count = 1, tmp = (*head)->next;
+	while (tmp)
+	{
+		if (idx == count)
+		{
+			tmp->prev->next = new, new->prev = tmp->prev;
+			new->next = tmp, tmp->prev = new;
+			return (new);
+		}
+		count++;
+		tmp_prev = tmp;
+		tmp = tmp->next;
+	}
+	if (tmp == NULL && count == idx)
+	{
+		tmp_prev->next = new, new->prev = tmp_prev;
+		return (new);
+	}
+	free(new);
+	return (NULL);
 }
