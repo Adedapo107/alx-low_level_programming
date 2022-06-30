@@ -20,10 +20,3 @@ int main(void)
 	printf("%lu\n", hash_djb2((unsigned char *)s));
 	return (EXIT_SUCCESS);
 }
-Footer
-© 2022 GitHub, Inc.
-Footer navigation
-Terms
-Privacy
-Security
-St
